@@ -1,35 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react'
+import { useTheme } from './hooks/useTheme'
+import type { Preferences } from '../../../shared/types'
+import './styles/global.css'
+import styles from './App.module.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [folderPath, setFolderPath] = useState<string | null>(null)
+  const { mode, setMode, resolved } = useTheme()
+
+  useEffect(() => {
+    window.electronAPI.getPreferences().then((prefs: Preferences) => {
+      if (prefs.lastFolderPath) setFolderPath(prefs.lastFolderPath)
+    })
+  }, [])
 
   return (
-    <>
-      <div>
-        <a href="https://electron-vite.github.io" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+    <div className={styles.app}>
+      <div className={styles.main}>
+        <p style={{ padding: '2rem', color: 'var(--text)' }}>
+          Shell OK — theme: {resolved}, folder: {folderPath ?? 'none'}
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
-
-export default App
