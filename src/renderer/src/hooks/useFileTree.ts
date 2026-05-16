@@ -11,6 +11,11 @@ export function useFileTree(initialFolder: string | null) {
     await window.electronAPI.watchStart(path)
   }, [])
 
+  // Sync initialFolder into folderPath when it changes (e.g. after prefs load)
+  useEffect(() => {
+    if (initialFolder) setFolderPath(initialFolder)
+  }, [initialFolder])
+
   useEffect(() => {
     if (!folderPath) return
     loadTree(folderPath)
