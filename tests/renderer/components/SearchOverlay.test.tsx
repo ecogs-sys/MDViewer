@@ -49,4 +49,11 @@ describe('SearchOverlay', () => {
     fireEvent.keyDown(document, { key: 'Escape' })
     expect(onClose).toHaveBeenCalledOnce()
   })
+
+  it('calls onClose when backdrop is clicked', () => {
+    const onClose = vi.fn()
+    const { container } = render(<SearchOverlay tree={tree} onSelect={vi.fn()} onClose={onClose} />)
+    fireEvent.click(container.firstChild!)
+    expect(onClose).toHaveBeenCalledOnce()
+  })
 })
