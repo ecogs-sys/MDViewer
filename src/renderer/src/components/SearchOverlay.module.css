@@ -1,0 +1,49 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 15vh;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 560px;
+  max-width: 90vw;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.input {
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+}
+
+.input::placeholder { color: var(--text-muted); }
+
+.results { max-height: 320px; overflow-y: auto; }
+
+.result {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 16px;
+  cursor: pointer;
+  gap: 2px;
+}
+
+.result:hover { background: var(--selected-bg); }
+
+.name { font-size: 13px; color: var(--text); }
+.path { font-size: 11px; color: var(--text-muted); }
+.empty { padding: 12px 16px; color: var(--text-muted); font-size: 13px; }
