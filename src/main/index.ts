@@ -1,6 +1,8 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { registerIpcHandlers } from './ipc-handlers'
+import { IPC } from '../shared/types'
 
 function createWindow(): BrowserWindow {
   const win = new BrowserWindow({
@@ -18,6 +20,9 @@ function createWindow(): BrowserWindow {
 
   win.on('ready-to-show', () => win.show())
 
+  registerIpcHandlers(win)
+  buildMenu(win)
+
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     win.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
@@ -25,6 +30,26 @@ function createWindow(): BrowserWindow {
   }
 
   return win
+}
+
+function buildMenu(win: BrowserWindow): void {
+  const template: Electron.MenuItemConstructorOptions[] = [
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'Open Folder...',
+          accelerator: 'CmdOrCtrl+O',
+          click: () => win.webContents.send(IPC.MENU_OPEN_FOLDER),
+        },
+        { type: 'separator' },
+        { role: 'quit' },
+      ],
+    },
+    { role: 'editMenu' },
+    { role: 'viewMenu' },
+  ]
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 }
 
 app.whenReady().then(() => {

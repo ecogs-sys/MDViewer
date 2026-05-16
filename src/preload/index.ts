@@ -1,24 +1,35 @@
-import { ipcRenderer, contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
+import { IPC } from '../shared/types'
+import type { FileNode, Preferences } from '../shared/types'
 
-// --------- Expose some API to the Renderer process ---------
-contextBridge.exposeInMainWorld('ipcRenderer', {
-  on(...args: Parameters<typeof ipcRenderer.on>) {
-    const [channel, listener] = args
-    return ipcRenderer.on(channel, (event, ...args) => listener(event, ...args))
-  },
-  off(...args: Parameters<typeof ipcRenderer.off>) {
-    const [channel, ...omit] = args
-    return ipcRenderer.off(channel, ...omit)
-  },
-  send(...args: Parameters<typeof ipcRenderer.send>) {
-    const [channel, ...omit] = args
-    return ipcRenderer.send(channel, ...omit)
-  },
-  invoke(...args: Parameters<typeof ipcRenderer.invoke>) {
-    const [channel, ...omit] = args
-    return ipcRenderer.invoke(channel, ...omit)
+contextBridge.exposeInMainWorld('electronAPI', {
+  openFolder: (): Promise<string | null> =>
+    ipcRenderer.invoke(IPC.OPEN_FOLDER),
+
+  readTree: (path: string): Promise<FileNode> =>
+    ipcRenderer.invoke(IPC.READ_TREE, path),
+
+  readFile: (path: string): Promise<string> =>
+    ipcRenderer.invoke(IPC.READ_FILE, path),
+
+  watchStart: (path: string): Promise<void> =>
+    ipcRenderer.invoke(IPC.WATCH_START, path),
+
+  onWatchEvent: (callback: () => void): (() => void) => {
+    const listener = () => callback()
+    ipcRenderer.on(IPC.WATCH_EVENT, listener)
+    return () => ipcRenderer.removeListener(IPC.WATCH_EVENT, listener)
   },
 
-  // You can expose other APTs you need here.
-  // ...
+  onMenuOpenFolder: (callback: () => void): (() => void) => {
+    const listener = () => callback()
+    ipcRenderer.on(IPC.MENU_OPEN_FOLDER, listener)
+    return () => ipcRenderer.removeListener(IPC.MENU_OPEN_FOLDER, listener)
+  },
+
+  getPreferences: (): Promise<Preferences> =>
+    ipcRenderer.invoke(IPC.PREFS_GET),
+
+  setPreferences: (updates: Partial<Preferences>): Promise<void> =>
+    ipcRenderer.invoke(IPC.PREFS_SET, updates),
 })
