@@ -44,6 +44,9 @@ One-click installers for the latest version:
 
 ---
 
+<img width="2974" height="1987" alt="image" src="https://github.com/user-attachments/assets/7d9881c5-c972-40f6-803a-0ae85f438112" />
+
+
 ## Features
 
 - **Two-panel layout** — collapsible file tree on the left, rendered markdown on the right
