@@ -19,13 +19,9 @@ export function registerIpcHandlers(mainWindow: BrowserWindow): void {
     return folderPath
   })
 
-  ipcMain.handle(IPC.READ_TREE, (_event, folderPath: string) => {
-    return walkTree(folderPath)
-  })
+  ipcMain.handle(IPC.READ_TREE, (_event, folderPath: string) => walkTree(folderPath))
 
-  ipcMain.handle(IPC.READ_FILE, (_event, filePath: string) => {
-    return readMarkdownFile(filePath)
-  })
+  ipcMain.handle(IPC.READ_FILE, (_event, filePath: string) => readMarkdownFile(filePath))
 
   ipcMain.handle(IPC.WATCH_START, (_event, folderPath: string) => {
     watcher?.close()

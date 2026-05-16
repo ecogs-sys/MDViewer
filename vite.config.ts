@@ -12,6 +12,16 @@ export default defineConfig({
       },
       preload: {
         input: path.join(__dirname, 'src/preload/index.ts'),
+        vite: {
+          build: {
+            rollupOptions: {
+              output: {
+                format: 'cjs',
+                entryFileNames: 'preload.cjs',
+              },
+            },
+          },
+        },
       },
       renderer: process.env.NODE_ENV === 'test'
         ? undefined

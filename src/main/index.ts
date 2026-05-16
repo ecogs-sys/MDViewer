@@ -5,6 +5,7 @@ import { registerIpcHandlers } from './ipc-handlers'
 import { IPC } from '../shared/types'
 
 function createWindow(): BrowserWindow {
+  const appPath = app.getAppPath()
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -12,13 +13,17 @@ function createWindow(): BrowserWindow {
     minHeight: 500,
     show: false,
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
+      preload: join(appPath, 'dist-electron', 'preload.cjs'),
       nodeIntegration: false,
       contextIsolation: true,
     },
   })
 
   win.on('ready-to-show', () => win.show())
+  win.webContents.on('did-fail-load', (_, code, desc) => {
+    console.error('[main] renderer failed to load:', code, desc)
+    if (!win.isVisible()) win.show()
+  })
 
   registerIpcHandlers(win)
   buildMenu(win)
@@ -26,7 +31,7 @@ function createWindow(): BrowserWindow {
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     win.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    win.loadFile(join(__dirname, '../renderer/index.html'))
+    win.loadFile(join(appPath, 'dist', 'index.html'))
   }
 
   return win

@@ -21,10 +21,13 @@ export default function App() {
   const { tree, folderPath, openFolder } = useFileTree(initialFolder)
 
   useEffect(() => {
-    window.electronAPI.getPreferences().then((prefs: Preferences) => {
-      if (prefs.lastFolderPath) setInitialFolder(prefs.lastFolderPath)
-      setPrefsLoaded(true)
-    })
+    window.electronAPI
+      .getPreferences()
+      .then((prefs: Preferences) => {
+        if (prefs.lastFolderPath) setInitialFolder(prefs.lastFolderPath)
+      })
+      .catch((err) => console.error('Failed to load preferences', err))
+      .finally(() => setPrefsLoaded(true))
   }, [])
 
   useEffect(() => {

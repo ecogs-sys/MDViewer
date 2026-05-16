@@ -12,7 +12,7 @@ describe('parseMarkdown', () => {
     const md = '---\ntitle: Test\ndate: 2026-01-01\n---\n# Content'
     const { frontmatter } = await parseMarkdown(md)
     expect(frontmatter.title).toBe('Test')
-    expect((frontmatter.date as Date).getFullYear()).toBe(2026)
+    expect(frontmatter.date).toBe('2026-01-01')
   })
 
   it('renders GFM tables', async () => {

@@ -6,8 +6,8 @@ import remarkRehype from 'remark-rehype'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeKatex from 'rehype-katex'
 import rehypeStringify from 'rehype-stringify'
-import matter from 'gray-matter'
 import { calloutsPlugin } from './callouts-plugin'
+import { extractFrontmatter } from './frontmatter'
 
 const processor = unified()
   .use(remarkParse)
@@ -25,7 +25,7 @@ export interface ParsedMarkdown {
 }
 
 export async function parseMarkdown(raw: string): Promise<ParsedMarkdown> {
-  const { data: frontmatter, content } = matter(raw)
+  const { frontmatter, content } = extractFrontmatter(raw)
   const result = await processor.process(content)
   return { html: String(result), frontmatter }
 }
