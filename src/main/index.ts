@@ -10,12 +10,17 @@ const devtoolsRequested = process.argv.some((arg) => DEVTOOLS_FLAGS.includes(arg
 
 function createWindow(): BrowserWindow {
   const appPath = app.getAppPath()
+  const iconPath = app.isPackaged
+    ? join(process.resourcesPath, 'icon.png')
+    : join(appPath, 'resources', 'icon.png')
+
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 700,
     minHeight: 500,
     show: false,
+    icon: iconPath,
     webPreferences: {
       preload: join(appPath, 'dist-electron', 'preload.cjs'),
       nodeIntegration: false,

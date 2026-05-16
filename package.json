@@ -1,7 +1,7 @@
 {
   "name": "mdviewer",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "main": "dist-electron/index.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "test": "vitest -c vitest.workspace.ts",
     "test:ui": "vitest -c vitest.workspace.ts --ui",
     "coverage": "vitest -c vitest.workspace.ts --coverage",
+    "icon": "node scripts/generate-icon.mjs",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "npm run build && electron-builder --mac",
     "build:linux": "npm run build && electron-builder --linux"
@@ -35,6 +36,7 @@
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",

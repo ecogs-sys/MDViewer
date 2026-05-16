@@ -1,0 +1,46 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- App tile background: Catppuccin Lavender gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b4befe" />
+      <stop offset="100%" stop-color="#7287fd" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <!-- Rounded square tile -->
+  <rect x="0" y="0" width="1024" height="1024" rx="200" ry="200" fill="url(#bg)" />
+
+  <!-- Document card (white) with folded corner -->
+  <g filter="url(#shadow)">
+    <!-- Card body. Folded corner is the missing top-right wedge. -->
+    <path d="M 232 232
+             L 680 232
+             L 792 344
+             L 792 792
+             Q 792 824 760 824
+             L 264 824
+             Q 232 824 232 792
+             Z"
+          fill="#ffffff" />
+    <!-- Folded corner triangle (slightly darker for shading) -->
+    <path d="M 680 232 L 680 344 L 792 344 Z" fill="#e0e6ff" />
+  </g>
+
+  <!-- "M↓" mark in Catppuccin Mauve  -->
+  <g fill="#7287fd" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-weight="800">
+    <text x="512" y="640" text-anchor="middle" font-size="320" letter-spacing="-12">M</text>
+    <!-- Down arrow next to M -->
+    <path d="M 660 510
+             L 720 510
+             L 720 600
+             L 760 600
+             L 690 690
+             L 620 600
+             L 660 600
+             Z"
+          fill="#7287fd" />
+  </g>
+</svg>
