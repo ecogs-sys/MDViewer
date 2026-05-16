@@ -4,6 +4,10 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { registerIpcHandlers } from './ipc-handlers'
 import { IPC } from '../shared/types'
 
+const DEVTOOLS_FLAGS = ['--devtools', '--inspect-renderer']
+const devtoolsRequested = process.argv.some((arg) => DEVTOOLS_FLAGS.includes(arg)) ||
+  process.env['MDVIEWER_DEVTOOLS'] === '1'
+
 function createWindow(): BrowserWindow {
   const appPath = app.getAppPath()
   const win = new BrowserWindow({
@@ -19,7 +23,10 @@ function createWindow(): BrowserWindow {
     },
   })
 
-  win.on('ready-to-show', () => win.show())
+  win.on('ready-to-show', () => {
+    win.show()
+    if (devtoolsRequested) win.webContents.openDevTools({ mode: 'detach' })
+  })
   win.webContents.on('did-fail-load', (_, code, desc) => {
     console.error('[main] renderer failed to load:', code, desc)
     if (!win.isVisible()) win.show()

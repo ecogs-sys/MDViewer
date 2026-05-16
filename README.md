@@ -140,6 +140,29 @@ Double-click `release\0.0.0\win-unpacked\MDViewer.exe` — no installation neede
 
 You'll see a **Welcome Screen** with a single "Open Folder" button. Pick the folder containing your markdown files. MDViewer remembers it, so subsequent launches go straight to the file tree.
 
+### Opening DevTools (for troubleshooting)
+
+If you need to inspect renderer errors in a packaged build, launch with `--devtools` (DevTools opens in a detached window automatically):
+
+```bash
+# Windows
+MDViewer.exe --devtools
+
+# macOS
+open -a MDViewer --args --devtools
+
+# Linux (AppImage)
+./MDViewer-0.1.0.AppImage --devtools
+```
+
+Equivalent via env var:
+
+```bash
+MDVIEWER_DEVTOOLS=1 MDViewer.exe
+```
+
+You can also open DevTools any time from the **View → Toggle Developer Tools** menu item.
+
 ---
 
 ## Architecture
