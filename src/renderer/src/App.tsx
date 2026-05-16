@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useTheme } from './hooks/useTheme'
-import type { Preferences } from '../../../shared/types'
+import type { Preferences } from '../../shared/types'
 import './styles/global.css'
 import styles from './App.module.css'
 
 export default function App() {
   const [folderPath, setFolderPath] = useState<string | null>(null)
-  const { mode, setMode, resolved } = useTheme()
+  const { resolved } = useTheme()
 
   useEffect(() => {
     window.electronAPI.getPreferences().then((prefs: Preferences) => {

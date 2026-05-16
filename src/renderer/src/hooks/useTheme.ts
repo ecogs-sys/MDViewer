@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import type { Preferences } from '../../../../shared/types'
+import type { Preferences } from '../../../shared/types'
 
 type ThemeMode = 'dark' | 'light' | 'system'
 type ResolvedTheme = 'dark' | 'light'
