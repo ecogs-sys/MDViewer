@@ -63,7 +63,14 @@ function buildMenu(win: BrowserWindow): void {
         { role: 'quit' },
       ],
     },
-    { role: 'editMenu' },
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'copy' },
+        { type: 'separator' },
+        { role: 'selectAll' },
+      ],
+    },
     { role: 'viewMenu' },
   ]
   Menu.setApplicationMenu(Menu.buildFromTemplate(template))
