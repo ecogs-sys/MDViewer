@@ -165,6 +165,36 @@ You can also open DevTools any time from the **View → Toggle Developer Tools**
 
 ---
 
+## Releasing (maintainers)
+
+Cross-platform installers are built automatically by GitHub Actions on every version tag and attached to a GitHub Release.
+
+```bash
+# bump the version in package.json (e.g. 0.1.0 → 0.1.1)
+npm version patch    # or `minor` / `major`
+
+# push the new tag — this triggers the workflow
+git push --follow-tags
+```
+
+The workflow (`.github/workflows/release.yml`) runs in parallel on:
+
+| Runner | Builds |
+|---|---|
+| `ubuntu-latest` | `MDViewer-Linux-<version>.AppImage` |
+| `macos-latest` | `MDViewer-Mac-<version>-Installer.dmg` (unsigned) |
+| `windows-latest` | `MDViewer-Windows-<version>-Setup.exe` (NSIS) |
+
+All artifacts are uploaded to the GitHub Release matching the tag. GitHub Actions is **free for public repositories** across all runner types.
+
+### macOS unsigned-DMG warning
+
+Builds are not Apple-notarized. On first launch, macOS users will see *"MDViewer can't be opened because Apple cannot check it for malicious software"*. They need to **right-click → Open** (or `xattr -d com.apple.quarantine MDViewer.app` from Terminal).
+
+To sign with an Apple Developer ID, add `CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD`, and `APPLE_TEAM_ID` as repo secrets and electron-builder will pick them up automatically.
+
+---
+
 ## Architecture
 
 MDViewer follows the standard Electron split:
