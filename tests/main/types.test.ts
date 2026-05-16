@@ -11,5 +11,13 @@ describe('IPC constants', () => {
     expect(IPC.PREFS_GET).toBe('prefs:get')
     expect(IPC.PREFS_SET).toBe('prefs:set')
     expect(IPC.MENU_OPEN_FOLDER).toBe('menu:open-folder')
+
+    expect(Object.keys(IPC).sort()).toEqual([
+      'MENU_OPEN_FOLDER', 'OPEN_FOLDER', 'PREFS_GET', 'PREFS_SET',
+      'READ_FILE', 'READ_TREE', 'WATCH_EVENT', 'WATCH_START',
+    ])
+
+    const values = Object.values(IPC)
+    expect(new Set(values).size).toBe(values.length)
   })
 })

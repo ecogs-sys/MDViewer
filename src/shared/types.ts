@@ -1,9 +1,6 @@
-export interface FileNode {
-  name: string
-  path: string
-  type: 'file' | 'folder'
-  children?: FileNode[]
-}
+export type FileNode =
+  | { name: string; path: string; type: 'file' }
+  | { name: string; path: string; type: 'folder'; children: FileNode[] }
 
 export interface Preferences {
   lastFolderPath: string | null
