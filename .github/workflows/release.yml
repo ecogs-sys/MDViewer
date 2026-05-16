@@ -28,7 +28,9 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        # Use `install` (not `ci`) so cross-platform optional binaries
+        # (e.g. @esbuild/<platform>) reconcile cleanly across runners.
+        run: npm install --no-audit --no-fund
 
       - name: Run tests
         run: npm test -- --run
